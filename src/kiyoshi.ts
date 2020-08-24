@@ -1,4 +1,4 @@
-enum zunDoko {
+export enum zunDoko {
     Zun  = 'ズン',
     Doko = 'ドコ'
 }
@@ -9,29 +9,36 @@ function generateZunOrDoko(): zunDoko {
         return zunDoko.Zun;
     } else {
         return zunDoko.Doko;
-    };
-};
+    }
+}
 
-function generateZunDokoArray(array? :zunDoko[]):zunDoko[] {
-    let zunDokoArray:zunDoko[] = array || [];
-    while (zunDokoArray.length < 5) {
-        zunDokoArray.push(generateZunOrDoko());
-    };
-    return zunDokoArray
-};
+export function generateZunDokoKiyoshi(array: zunDoko[]): zunDoko[] {
+    let resultZunDokoKiyoshi: zunDoko[] = array;
+    while (resultZunDokoKiyoshi.length < 5) {
+        resultZunDokoKiyoshi = generateZunDokoKiyoshi([...resultZunDokoKiyoshi, generateZunOrDoko()]);
+    }
+    return resultZunDokoKiyoshi;
+}
 
-while (true){
-    let result:zunDoko[] = generateZunDokoArray();
+export function judgeZunDokoKiyoshi(resultZunDokoKiyoshi: zunDoko[]): boolean{
     const correct = [zunDoko.Zun, zunDoko.Zun, zunDoko.Zun, zunDoko.Zun, zunDoko.Doko];
-    console.log(result);
-    if (result.toString() ===  correct.toString()){
-        console.log('き・よ・し！')
-        break;
-    } else {
-        console.log('失敗！')
-    };
+    if  (resultZunDokoKiyoshi.toString() === correct.toString()) {
+        return true;
+    }
+    return false;
 }
 
-export {
-    generateZunDokoArray
+function main(array? :zunDoko[]): string{
+    const initialArray: zunDoko[] = array || [];
+    const zunDokoKiyoshi: zunDoko[] = generateZunDokoKiyoshi(initialArray);
+    const result: boolean = judgeZunDokoKiyoshi(zunDokoKiyoshi);
+    if (result) {
+        return zunDokoKiyoshi.join('・') + ' き・よ・し！'
+    } else {
+        console.log(zunDokoKiyoshi.join('・'));    
+        return main(zunDokoKiyoshi.slice(-4));
+    }
 }
+
+const msg = main();
+console.log(msg);
