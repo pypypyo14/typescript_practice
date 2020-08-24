@@ -12,8 +12,8 @@ function generateZunOrDoko(): zunDoko {
     };
 };
 
-function generateZunDokoArray():zunDoko[] {
-    let zunDokoArray:zunDoko[] = [];
+function generateZunDokoArray(array? :zunDoko[]):zunDoko[] {
+    let zunDokoArray:zunDoko[] = array || [];
     while (zunDokoArray.length < 5) {
         zunDokoArray.push(generateZunOrDoko());
     };
@@ -32,4 +32,6 @@ while (true){
     };
 }
 
-
+export {
+    generateZunDokoArray
+}
